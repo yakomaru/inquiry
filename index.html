@@ -11,8 +11,11 @@
   <body ng-app='inquiry' ng-controller='search'>
     <h1>Inquiry</h1>
     <div class='compile'>
-      <input placeholder='Site To Search'>
-      <button>Start</button>
+      <form name='siteForm' ng-submit='compile()' novalidate>
+        <input placeholder='Site To Search' type='url' ng-model='site' required>
+        <button type='submit' ng-disabled='siteForm.$invalid || compiling'>{{ startButton }}</button>
+        <span ng-show='siteForm.$invalid'>Invalid URL</span>
+      </form>
     </div>
     <div class='search'>
       <input placeholder='Keyword Filter' ng-model='search'>
