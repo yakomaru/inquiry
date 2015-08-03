@@ -1,4 +1,4 @@
-# CurrentS #
+# Inquiry #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -16,20 +16,20 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## CurrentS: Current Search ##
-  > CurrentS is a personal search engine which is able to search through all links within an up to date page for keywords.
+## Inquiry: Current Search ##
+  > Inquiry is a personal search engine which is able to search through all links within an up to date page for keywords.
 
 ## Audience ##
   > Anyone who frequently visits websites that change regularly might find this product useful.
 
 ## Summary ##
-  > CurrentS is useful for searching through pages which change much too quickly for traditional search engines to keep up with. It does this by grabbing html data when the user tells it to and then caching that data for quick searching.
+  > Inquiry is useful for searching through pages which change much too quickly for traditional search engines to keep up with. It does this by grabbing html data when the user tells it to and then caching that data for quick searching.
 
 ## Problem ##
-  > Users have the ability to search through a given page of text and perform deeper searches on static pages using large search engines, but have trouble accessing more recent data using either of these methods. CurrentS gives users the best of both worlds with a targeted, up to date search.
+  > Users have the ability to search through a given page of text and perform deeper searches on static pages using large search engines, but have trouble accessing more recent data using either of these methods. Inquiry gives users the best of both worlds with a targeted, up to date search.
 
 ## Solution ##
-  > CurrentS gives users the best of both worlds with a targeted, up to date search.
+  > Inquiry gives users the best of both worlds with a targeted, up to date search.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
