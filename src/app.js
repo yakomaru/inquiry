@@ -41,6 +41,7 @@ var parseKeywords = function(site, dom, storage) {
       var text = $('body', dom).text();
       text = text.replace(/[\n\r,.?!]/g, ' ');
       text = text.split(' ');
+
       text.forEach(function(word) {
         word = word.toLowerCase();
         if(!storage[site].keywords[word]) {
@@ -54,11 +55,13 @@ var parseKeywords = function(site, dom, storage) {
 var recurse = function(siteArray, storage, cb) {
   if(siteArray.length > 0) {
     var page = siteArray.pop();
+
     corsAjax(page, function(data) {
       var dom = new DOMParser().parseFromString(data, 'text/html');
       parseKeywords(page, dom, storage);
       recurse(siteArray, storage, cb);
     });
+
   } else {
     cb();
   }
@@ -77,6 +80,7 @@ angular.module('inquiry', [])
       var site = $scope.site;
       $scope.compiling = true;
       $scope.startButton = 'Compiling';
+
       corsAjax(site, function(data) {
         var dom = new DOMParser().parseFromString(data, 'text/html');
         parseLinks(site, dom, siteObj, $scope.storage);
@@ -85,6 +89,7 @@ angular.module('inquiry', [])
         for(var page in siteObj) {
           siteArray.push(page);
         }
+        
         recurse(siteArray, $scope.storage, function() {
           $scope.compiling = false;
           $scope.$apply();
@@ -102,6 +107,7 @@ angular.module('inquiry', [])
 
     $scope.searchFilter = function(site) {
       var search = $scope.search.split(' ');
+
       return search.every(function(word) {
         word = word.toLowerCase();
         return !!$scope.storage[site].keywords[word];

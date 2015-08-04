@@ -11,6 +11,7 @@
   </head>
   <body class='page-header' ng-app='inquiry' ng-controller='search'>
     <h1>Inquiry</h1>
+
     <div>
       <form name='siteForm' ng-submit='compile()' novalidate>
         <input placeholder='Site To Search' type='url' ng-model='site' class='form-control' required>
@@ -18,11 +19,13 @@
         <span ng-show='siteForm.$invalid'>Invalid URL</span>
       </form>
     </div>
+
     <div>
       <p>
         <input placeholder='Keyword Filter' ng-model='search' class='form-control'>
       </p>
     </div>
+
     <div ng-repeat='page in storage' ng-show='searchFilter(page.value)'>
       <h3>
         <div>{{ page.title }}</div>

@@ -1,0 +1,22 @@
+{
+  "name": "2015-06-solo",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yakomaru/2015-06-solo"
+  },
+  "author": "Nathaniel Parrish",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/yakomaru/2015-06-solo/issues"
+  },
+  "dependencies": {
+    "express": "~4.13.3"
+  }
+}
