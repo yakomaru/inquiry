@@ -12,22 +12,6 @@ var corsAjax = function(site, cb) {
     console.log('failed to get:\n' + site);
     cb('');
   });
-  // $.ajaxPrefilter( function (options) {
-  //   if (options.crossDomain && jQuery.support.cors) {
-  //     var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-  //     options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-  //     //options.url = "http://cors.corsproxy.io/url=" + options.url;
-  //   }
-  // });
-
-  // $.get(site, function (response) {
-  //   // console.log(response);
-  //   // $("#viewer").html(response);
-  //   cb(response);
-  // })
-  //   .fail(function() {
-  //     cb('');
-  //   });
 };
 
 var parseLinks = function(site, dom, siteObj, storage) {
