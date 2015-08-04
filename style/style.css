@@ -1,0 +1,14 @@
+body {
+  margin: 10% 20%;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+}
+
+input {
+  width: 50%;
+  height: 2.5em;
+}
+
+button {
+  height: 2.5em;
+}
