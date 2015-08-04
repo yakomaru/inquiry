@@ -11,16 +11,19 @@ var corsAjax = function(site, cb) {
     // console.log(response);
     // $("#viewer").html(response);
     cb(response);
-  });
+  })
+    .fail(function() {
+      cb('');
+    });
 };
 
 var parseLinks = function(site, dom, siteObj, storage) {
   $('a', dom).each(function() {
     var href = $(this).attr('href');
-    if(href[0] === '/') {
+    if(href && href[0] === '/') {
       href = site + href;
     }
-    if(href.indexOf(site) !== -1) {
+    if(href && href.indexOf(site) !== -1) {
       if(!siteObj[href] && !storage[href]) {
         siteObj[href] = href;
       }
@@ -29,36 +32,41 @@ var parseLinks = function(site, dom, siteObj, storage) {
 };
 
 var parseKeywords = function(site, dom, storage) {
-  if(!storage[site]) {
-    storage[site] = {value: site, keywords: {}};
-  }
-  console.log(storage[site]);
-  var text = $('body', dom).text();
-  text = text.replace(/[\n\r,.?!]/g, ' ');
-  text = text.split(' ');
-  text.forEach(function(word) {
-    word = word.toLowerCase();
-    if(!storage[site].keywords[word]) {
-      storage[site].keywords[word] = true;
+  if(site.slice(0, 4) === 'http') {
+    if(site[site.length - 1] === '/') {
+      site = site.slice(0, site.length - 1);
     }
-  });
+    if(!storage[site]) {
+      storage[site] = {value: site, title: $('title', dom).text(), keywords: {}};
+      var text = $('body', dom).text();
+      text = text.replace(/[\n\r,.?!]/g, ' ');
+      text = text.split(' ');
+      text.forEach(function(word) {
+        word = word.toLowerCase();
+        if(!storage[site].keywords[word]) {
+          storage[site].keywords[word] = true;
+        }
+      });
+    }
+  }
 };
 
-var recurse = function(siteArray, storage) {
+var recurse = function(siteArray, storage, cb) {
   if(siteArray.length > 0) {
     var page = siteArray.pop();
     corsAjax(page, function(data) {
       var dom = new DOMParser().parseFromString(data, 'text/html');
       parseKeywords(page, dom, storage);
-      recurse(siteArray, storage);
+      recurse(siteArray, storage, cb);
     });
+  } else {
+    cb();
   }
 };
 
 angular.module('inquiry', [])
   .controller('search', function($scope) {
     $scope.site = 'http://nathanielparrish.com';
-    $scope.startButton = 'Start';
     $scope.compiling = false;
     $scope.storage = {};
     $scope.search = '';
@@ -76,8 +84,19 @@ angular.module('inquiry', [])
         for(var page in siteObj) {
           siteArray.push(page);
         }
-        recurse(siteArray, $scope.storage);
+        recurse(siteArray, $scope.storage, function() {
+          $scope.compiling = false;
+          $scope.$apply();
+        });
       });
+    };
+
+    $scope.buttonText= function() {
+      if($scope.compiling) {
+        return 'Compiling';
+      } else {
+        return 'Start';
+      }
     };
 
     $scope.searchFilter = function(site) {
