@@ -72,6 +72,7 @@ angular.module('inquiry', [])
     $scope.search = '';
 
     $scope.compile = function() {
+      $scope.storage = {};
       var siteObj = {};
       var site = $scope.site;
       $scope.compiling = true;
