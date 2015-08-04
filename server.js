@@ -1,12 +1,31 @@
+var request = require('request');
+var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+var port = parseInt(process.env.PORT, 10) || 3000;
 
-app.post('/', function(req, res) {
-  console.log(req.data);
-  res.send();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
 });
 
-var server = app.listen(3000, function() {
+app.get('/src/app.js', function(req, res) {
+  res.sendFile(__dirname + '/src/app.js');
+});
+
+app.get('/style/style.css', function(req, res) {
+  res.sendFile(__dirname + '/style/style.css');
+});
+
+app.post('/', function(req, res) {
+  request(req.body.site, function(error, response, body) {
+    res.send(body);
+  });
+});
+
+var server = app.listen(port, function() {
   var host = server.address().address;
   var port = server.address().port;
 

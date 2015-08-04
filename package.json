@@ -17,6 +17,8 @@
     "url": "https://github.com/yakomaru/2015-06-solo/issues"
   },
   "dependencies": {
-    "express": "~4.13.3"
+    "express": "~4.13.3",
+    "body-parser": "~1.13.3",
+    "request": "~2.60.0"
   }
 }

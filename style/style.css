@@ -6,9 +6,11 @@ body {
 
 input {
   width: 50%;
-  height: 2.5em;
+  height: 2em;
+  font-size: 1em;
 }
 
 button {
-  height: 2.5em;
+  height: 2em;
+  font-size: 1em;
 }

@@ -1,29 +1,43 @@
 var corsAjax = function(site, cb) {
-  $.ajaxPrefilter( function (options) {
-    if (options.crossDomain && jQuery.support.cors) {
-      var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-      options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-      //options.url = "http://cors.corsproxy.io/url=" + options.url;
-    }
-  });
-
-  $.get(site, function (response) {
-    // console.log(response);
-    // $("#viewer").html(response);
-    cb(response);
+  $.ajax({
+    method: 'POST',
+    url: '/',
+    data: {site: site}
   })
-    .fail(function() {
-      cb('');
-    });
+  .done(function (res) {
+    console.log('page get:\n', site);
+    cb(res);
+  })
+  .fail(function () {
+    console.log('failed to get:\n' + site);
+    cb('');
+  });
+  // $.ajaxPrefilter( function (options) {
+  //   if (options.crossDomain && jQuery.support.cors) {
+  //     var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+  //     options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+  //     //options.url = "http://cors.corsproxy.io/url=" + options.url;
+  //   }
+  // });
+
+  // $.get(site, function (response) {
+  //   // console.log(response);
+  //   // $("#viewer").html(response);
+  //   cb(response);
+  // })
+  //   .fail(function() {
+  //     cb('');
+  //   });
 };
 
 var parseLinks = function(site, dom, siteObj, storage) {
+  var domain = 'http://' + site.split('/')[2];
   $('a', dom).each(function() {
     var href = $(this).attr('href');
     if(href && href[0] === '/') {
-      href = site + href;
+      href = domain + href;
     }
-    if(href && href.indexOf(site) !== -1) {
+    if(href && href.indexOf(domain) !== -1) {
       if(!siteObj[href] && !storage[href]) {
         siteObj[href] = href;
       }
@@ -75,6 +89,7 @@ angular.module('inquiry', [])
     $scope.search = '';
 
     $scope.compile = function() {
+      console.clear();
       $scope.storage = {};
       var siteObj = {};
       var site = $scope.site;
@@ -89,7 +104,7 @@ angular.module('inquiry', [])
         for(var page in siteObj) {
           siteArray.push(page);
         }
-        
+
         recurse(siteArray, $scope.storage, function() {
           $scope.compiling = false;
           $scope.$apply();
