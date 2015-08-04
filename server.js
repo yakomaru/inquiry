@@ -19,6 +19,10 @@ app.get('/style/style.css', function(req, res) {
   res.sendFile(__dirname + '/style/style.css');
 });
 
+app.get('/style/favicon.ico', function(req, res) {
+  res.sendFile(__dirname + '/style/favicon.ico');
+});
+
 app.post('/', function(req, res) {
   request(req.body.site, function(error, response, body) {
     res.send(body);

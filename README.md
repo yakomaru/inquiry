@@ -35,7 +35,7 @@ Once the project moves into development, the press release can be used as a touc
   > A quote from a spokesperson in your company. -->
 
 ## How to Get Started ##
-  > Run node server.js and navigate to localhost:3000.
+  > Run 'npm install' to get dependencies and then '$ node server.js' and navigate to [localhost:3000](http://localhost:3000). Alternatively, check out [inquiry-search](http://inquiry-search.herokuapp.com).
 
 <!-- ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.

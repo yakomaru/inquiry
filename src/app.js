@@ -53,7 +53,9 @@ var parseKeywords = function(site, dom, storage) {
 var recurse = function(siteArray, storage, cb) {
   if(siteArray.length > 0) {
     var page = siteArray.pop();
-
+    if(storage[page]) {
+      recurse(siteArray, storage, cb);
+    }
     corsAjax(page, function(data) {
       var dom = new DOMParser().parseFromString(data, 'text/html');
       parseKeywords(page, dom, storage);
@@ -106,10 +108,14 @@ angular.module('inquiry', [])
 
     $scope.searchFilter = function(site) {
       var search = $scope.search.split(' ');
+      var str = '';
+      for(var keyword in $scope.storage[site].keywords) {
+        str += ' ' + keyword;
+      }
 
       return search.every(function(word) {
         word = word.toLowerCase();
-        return !!$scope.storage[site].keywords[word];
+        return str.indexOf(word) !== -1;
       });
     };
   });
