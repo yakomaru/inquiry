@@ -2,7 +2,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
-var port = parseInt(process.env.PORT, 10) || 3000;
+var port = parseInt(process.env.PORT) || 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
