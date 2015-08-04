@@ -14,20 +14,33 @@ var corsAjax = function(site, cb) {
   });
 };
 
-var parse = function(site, data, siteObj, storage) {
-  var dom = new DOMParser().parseFromString(data, 'text/html');
+var parseLinks = function(site, dom, siteObj, storage) {
   $('a', dom).each(function() {
     var href = $(this).attr('href');
     if(href[0] === '/') {
       href = site + href;
     }
-    if(site.indexOf(href) !== -1) {
-      if(!siteObj[href]) {
+    if(href.indexOf(site) !== -1) {
+      if(!siteObj[href] && !storage[href]) {
         siteObj[href] = href;
       }
     }
   });
-  // continue parsing for keywords
+};
+
+var parseKeywords = function(site, dom, storage) {
+  if(!storage[site]) {
+    storage[site] = {value: site, keywords: {}};
+  }
+  var text = $('body', dom).text();
+  text = text.replace(/[\n\r,.?!]/g, ' ');
+  text = text.split(' ');
+  text.forEach(function(word) {
+    word = word.toLowerCase();
+    if(!storage[site].keywords[word]) {
+      storage[site].keywords[word] = true;
+    }
+  });
 };
 
 angular.module('inquiry', [])
@@ -35,7 +48,7 @@ angular.module('inquiry', [])
     $scope.site = 'http://nathanielparrish.com';
     $scope.startButton = 'Start';
     $scope.compiling = false;
-    $scope.storage = {'nathanielparrish.com': {value: 'nathanielparrish.com', keywords: {}}};
+    $scope.storage = {};
     $scope.search = '';
 
     $scope.compile = function() {
@@ -44,16 +57,18 @@ angular.module('inquiry', [])
       $scope.compiling = true;
       $scope.startButton = 'Compiling';
       corsAjax(site, function(data) {
-        parse(site, data, siteObj);
+        var dom = new DOMParser().parseFromString(data, 'text/html');
+        parseLinks(site, dom, siteObj, $scope.storage);
+        parseKeywords(site, dom, $scope.storage);
+        console.log(siteObj);
+        console.log($scope.storage);
       });
     };
 
     $scope.searchFilter = function(site) {
-      if($scope.search === '') {
-        return true;
-      }
       var search = $scope.search.split(' ');
       return search.every(function(word) {
+        word = word.toLowerCase();
         return !!$scope.storage[site].keywords[word];
       });
     };
