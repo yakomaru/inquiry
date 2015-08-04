@@ -67,7 +67,7 @@ var recurse = function(siteArray, storage, cb) {
 
 angular.module('inquiry', [])
   .controller('search', function($scope) {
-    $scope.site = 'http://nathanielparrish.com';
+    $scope.site = '';
     $scope.compiling = false;
     $scope.storage = {};
     $scope.search = '';
