@@ -21,6 +21,9 @@ var parseLinks = function(site, dom, siteObj, storage) {
     if(href && href[0] === '/') {
       href = domain + href;
     }
+    if(href[href.length - 1] === '/') {
+      href = href.slice(0, href.length - 1);
+    }
     if(href && href.indexOf(domain) !== -1) {
       if(!siteObj[href] && !storage[href]) {
         siteObj[href] = href;
@@ -55,6 +58,7 @@ var recurse = function(siteArray, storage, cb, applycb) {
     var page = siteArray.pop();
     if(storage[page]) {
       recurse(siteArray, storage, cb, applycb);
+      return;
     }
     corsAjax(page, function(data) {
       var dom = new DOMParser().parseFromString(data, 'text/html');
@@ -80,6 +84,9 @@ angular.module('inquiry', [])
       $scope.storage = {};
       var siteObj = {};
       var site = $scope.site;
+      if(site[site.length - 1] === '/') {
+        site = site.slice(0, site.length - 1);
+      }
       $scope.compiling = true;
       $scope.startButton = 'Compiling';
 
