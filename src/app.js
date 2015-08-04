@@ -32,6 +32,7 @@ var parseKeywords = function(site, dom, storage) {
   if(!storage[site]) {
     storage[site] = {value: site, keywords: {}};
   }
+  console.log(storage[site]);
   var text = $('body', dom).text();
   text = text.replace(/[\n\r,.?!]/g, ' ');
   text = text.split(' ');
@@ -41,6 +42,17 @@ var parseKeywords = function(site, dom, storage) {
       storage[site].keywords[word] = true;
     }
   });
+};
+
+var recurse = function(siteArray, storage) {
+  if(siteArray.length > 0) {
+    var page = siteArray.pop();
+    corsAjax(page, function(data) {
+      var dom = new DOMParser().parseFromString(data, 'text/html');
+      parseKeywords(page, dom, storage);
+      recurse(siteArray, storage);
+    });
+  }
 };
 
 angular.module('inquiry', [])
@@ -60,8 +72,11 @@ angular.module('inquiry', [])
         var dom = new DOMParser().parseFromString(data, 'text/html');
         parseLinks(site, dom, siteObj, $scope.storage);
         parseKeywords(site, dom, $scope.storage);
-        console.log(siteObj);
-        console.log($scope.storage);
+        var siteArray = [];
+        for(var page in siteObj) {
+          siteArray.push(page);
+        }
+        recurse(siteArray, $scope.storage);
       });
     };
 
