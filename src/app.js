@@ -50,16 +50,17 @@ var parseKeywords = function(site, dom, storage) {
   }
 };
 
-var recurse = function(siteArray, storage, cb) {
+var recurse = function(siteArray, storage, cb, applycb) {
   if(siteArray.length > 0) {
     var page = siteArray.pop();
     if(storage[page]) {
-      recurse(siteArray, storage, cb);
+      recurse(siteArray, storage, cb, applycb);
     }
     corsAjax(page, function(data) {
       var dom = new DOMParser().parseFromString(data, 'text/html');
       parseKeywords(page, dom, storage);
-      recurse(siteArray, storage, cb);
+      applycb();
+      recurse(siteArray, storage, cb, applycb);
     });
 
   } else {
@@ -93,6 +94,7 @@ angular.module('inquiry', [])
 
         recurse(siteArray, $scope.storage, function() {
           $scope.compiling = false;
+        }, function() {
           $scope.$apply();
         });
       });
