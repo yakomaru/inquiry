@@ -14,3 +14,17 @@ button {
   height: 2em;
   font-size: 1em;
 }
+
+.ng-hide-add, .ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
+.result {
+    transition: .5s linear all;
+    height: 4em;
+    overflow: hidden;
+}
+.result.ng-hide {
+    height: 0;
+}

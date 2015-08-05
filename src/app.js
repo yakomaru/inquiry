@@ -21,9 +21,6 @@ var parseLinks = function(site, dom, siteObj, storage) {
     if(href && href[0] === '/') {
       href = domain + href;
     }
-    if(href[href.length - 1] === '/') {
-      href = href.slice(0, href.length - 1);
-    }
     if(href && href.indexOf(domain) !== -1) {
       if(!siteObj[href] && !storage[href]) {
         siteObj[href] = href;
@@ -72,7 +69,7 @@ var recurse = function(siteArray, storage, cb, applycb) {
   }
 };
 
-angular.module('inquiry', [])
+angular.module('inquiry', ['ngAnimate'])
   .controller('search', function($scope) {
     $scope.site = '';
     $scope.compiling = false;
@@ -94,6 +91,7 @@ angular.module('inquiry', [])
         var dom = new DOMParser().parseFromString(data, 'text/html');
         parseLinks(site, dom, siteObj, $scope.storage);
         parseKeywords(site, dom, $scope.storage);
+        $scope.$apply();
         var siteArray = [];
         for(var page in siteObj) {
           siteArray.push(page);
@@ -101,6 +99,7 @@ angular.module('inquiry', [])
 
         recurse(siteArray, $scope.storage, function() {
           $scope.compiling = false;
+          $scope.$apply();
         }, function() {
           $scope.$apply();
         });
